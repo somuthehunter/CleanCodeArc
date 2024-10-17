@@ -1,5 +1,4 @@
 import 'package:calculator/core/service_locator.dart';
-// import 'package:calculator/features/calculation/domain/repository/calculation_repository.dart';
 import 'package:calculator/features/calculation/presentation/bloc/calculation_bloc.dart';
 import 'package:calculator/features/calculation/domain/usecases/add_use_case.dart';
 import 'package:calculator/features/calculation/domain/usecases/subtract_use_case.dart';
@@ -17,22 +16,51 @@ class CalculationScreen extends StatefulWidget {
 }
 
 class _CalculationScreenState extends State<CalculationScreen> {
-  //For Addition controller
+  //For Addition controller which manages the input of the input fields
   final TextEditingController _num1Add = TextEditingController();
   final TextEditingController _num2Add = TextEditingController();
+  //This is for the managing the result of the addition
   final TextEditingController _addRes = TextEditingController();
 //For subtraction Controller
   final TextEditingController _num1Sub = TextEditingController();
   final TextEditingController _num2Sub = TextEditingController();
+  //This is for the managing the result of the subtraction
   final TextEditingController _subRes = TextEditingController();
   //for Multiplication
   final TextEditingController _num1Mul = TextEditingController();
   final TextEditingController _num2Mul = TextEditingController();
+  //This is for the managing the result of the multiplication
   final TextEditingController _mulRes = TextEditingController();
   //For Division
   final TextEditingController _num1Div = TextEditingController();
   final TextEditingController _num2Div = TextEditingController();
+  //This is for the managing the result of the division
   final TextEditingController _divRes = TextEditingController();
+
+
+  /// A helper method to build a custom TextField widget for numerical input.
+  /// It allows customization for making the field read-only and handling value changes.
+  ///
+  /// This widget will be displayed inside a `SizedBox` that takes up a fraction
+  /// of the screen's width to ensure consistent layout across various devices.
+  ///
+  /// [controller] is the TextEditingController responsible for managing the
+  /// input and updating the associated text field.
+  /// [readOnly] is an optional boolean parameter indicating if the field should be
+  /// read-only (default is `false`).
+  /// [onChanged] is an optional callback function that will be triggered whenever
+  /// the value of the text field changes.
+  ///
+  /// Example Usage:
+  /// ```dart
+  /// _buildTextField(
+  ///   controller: _num1Add,
+  ///   readOnly: true,  // Makes the field read-only
+  ///   onChanged: (value) {
+  ///     // Logic to handle value change
+  ///   }
+  /// );
+  /// ```
 
   Widget _buildTextField(
           {required TextEditingController? controller,
@@ -43,6 +71,7 @@ class _CalculationScreenState extends State<CalculationScreen> {
         child: TextField(
           readOnly: readOnly,
           controller: controller,
+          keyboardType: TextInputType.number,
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
           ),
@@ -50,13 +79,16 @@ class _CalculationScreenState extends State<CalculationScreen> {
         ),
       );
 
+
+      //This helps to perform addition calculation take the inputs and triggers the Bloc & Addition Event
+
   void _addditionCalulation({required BuildContext context}) {
     double num1 = _num1Add.text.isEmpty ? 0 : double.parse(_num1Add.text);
     double num2 = _num2Add.text.isEmpty ? 0 : double.parse(_num2Add.text);
 
     context.read<CalculationBloc>().add(AdditionEvent(num1: num1, num2: num2));
   }
-
+//this helps to perform the subtraction Event , and trigger the Bloc & SubtractionEvent
   void _subtractionCalculation({required BuildContext context}) {
     double sub1 = _num1Sub.text.isEmpty ? 0 : double.parse(_num1Sub.text);
     double sub2 = _num2Sub.text.isEmpty ? 0 : double.parse(_num2Sub.text);
@@ -65,6 +97,7 @@ class _CalculationScreenState extends State<CalculationScreen> {
         .read<CalculationBloc>()
         .add(SubtractionEvent(num1: sub1, num2: sub2));
   }
+  //this helps to perform the Multiplication Event , and trigger the Bloc & MultiplicationEvent
 
   void _multiplicationCalculation({required BuildContext context}) {
     double mul1 = _num1Mul.text.isEmpty ? 0 : double.parse(_num1Mul.text);
@@ -74,7 +107,7 @@ class _CalculationScreenState extends State<CalculationScreen> {
         .read<CalculationBloc>()
         .add(MultiplicationEvent(num1: mul1, num2: mul2));
   }
-
+//this helps to perform the Division Event , and trigger the Bloc & DivisionEvent
   void _divisionCalculation({required BuildContext context}) {
     double div1 = _num1Div.text.isEmpty ? 0 : double.parse(_num1Div.text);
     double div2 = _num2Div.text.isEmpty ? 0 : double.parse(_num2Div.text);
@@ -82,6 +115,8 @@ class _CalculationScreenState extends State<CalculationScreen> {
     context.read<CalculationBloc>().add(DivisionEvent(num1: div1, num2: div2));
   }
 
+
+//Deallocating the memory of the variable using dispose function 
   @override
   void dispose() {
     _num1Add.dispose();
@@ -99,6 +134,8 @@ class _CalculationScreenState extends State<CalculationScreen> {
     super.dispose();
   }
 
+
+//This is the widgets , which builds the calculation homescreen and also the Dependency injection
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,16 +158,16 @@ class _CalculationScreenState extends State<CalculationScreen> {
                     case CalculationLoading _:
                       break;
                     case AdditionResult _:
-                      _addRes.text = state.result.addResult.toString();
+                      _addRes.text = state.result.answer.toString();
                       break;
                     case SubtractionResult _:
-                      _subRes.text = state.result.subResult.toString();
+                      _subRes.text = state.result.answer.toString();
                       break;
                     case MultiplicationResult _:
-                      _mulRes.text = state.result.mulResult.toString();
+                      _mulRes.text = state.result.answer.toString();
                       break;
                     case DivisionResult _:
-                      _divRes.text = state.result.divResult.toString();
+                      _divRes.text = state.result.answer.toString();
                       break;
                     case DivisionError _:
                       _divRes.text = state.divisionErrorMessage;

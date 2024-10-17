@@ -1,11 +1,14 @@
+/// A class representing the result of a calculation.
+///
+/// This class holds the output of an arithmetic operation, specifically the
+/// result of adding, subtracting, multiplying, or dividing two numbers.
 class Result {
-  final double addResult;
-  final double subResult;
-  final double mulResult;
-  final double divResult;
-  Result(
-      {required this.addResult,
-      required this.subResult,
-      required this.mulResult,
-      required this.divResult});
+  /// The answer obtained from the calculation.
+  final double answer;
+
+  /// Creates a [Result] instance with the given [answer].
+  ///
+  /// The [answer] parameter is required and must be provided when creating a
+  /// [Result] object.
+  Result({required this.answer});
 }

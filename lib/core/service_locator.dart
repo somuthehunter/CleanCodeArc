@@ -10,24 +10,22 @@ import 'package:calculator/features/calculation/presentation/bloc/calculation_bl
 
 final GetIt sl = GetIt.instance;
 
-void init() {
-  // Register the data source
+Future<void> init() async {
+  // If you have any async code like initializing services or databases, ensure they are awaited
+  // await SomeAsyncInitialization();
+
   sl.registerLazySingleton<CalculationDataSource>(
       () => CalculationDataSourceImpl());
 
-  // Register repository and inject the data source into the repository
   sl.registerLazySingleton<CalculationRepository>(
     () => CalculationRepositoryImpl(calculationDataSource: sl()),
   );
 
-  // Register use cases
-// Register use cases
   sl.registerLazySingleton(() => AddUseCase(repository: sl()));
   sl.registerLazySingleton(() => SubtractUseCase(repository: sl()));
   sl.registerLazySingleton(() => MultiplyUseCase(repository: sl()));
   sl.registerLazySingleton(() => DivideUseCase(repository: sl()));
 
-  // Register Bloc
   sl.registerFactory(() => CalculationBloc(
         addUseCase: sl(),
         subtractUseCase: sl(),

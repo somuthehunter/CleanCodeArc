@@ -2,7 +2,7 @@
 
 import 'package:calculator/features/calculation/domain/entities/calculation_entity.dart';
 
-class CalculationModel extends Calculationentity {
+class CalculationModel extends CalculationEntity {
   CalculationModel({
     required super.num1,
     required super.num2,
