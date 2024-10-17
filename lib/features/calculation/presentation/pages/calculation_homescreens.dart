@@ -1,5 +1,4 @@
 import 'package:calculator/core/service_locator.dart';
-// import 'package:calculator/features/calculation/domain/repository/calculation_repository.dart';
 import 'package:calculator/features/calculation/presentation/bloc/calculation_bloc.dart';
 import 'package:calculator/features/calculation/domain/usecases/add_use_case.dart';
 import 'package:calculator/features/calculation/domain/usecases/subtract_use_case.dart';
@@ -43,6 +42,7 @@ class _CalculationScreenState extends State<CalculationScreen> {
         child: TextField(
           readOnly: readOnly,
           controller: controller,
+          keyboardType: TextInputType.number,
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
           ),
@@ -121,16 +121,16 @@ class _CalculationScreenState extends State<CalculationScreen> {
                     case CalculationLoading _:
                       break;
                     case AdditionResult _:
-                      _addRes.text = state.result.addResult.toString();
+                      _addRes.text = state.result.answer.toString();
                       break;
                     case SubtractionResult _:
-                      _subRes.text = state.result.subResult.toString();
+                      _subRes.text = state.result.answer.toString();
                       break;
                     case MultiplicationResult _:
-                      _mulRes.text = state.result.mulResult.toString();
+                      _mulRes.text = state.result.answer.toString();
                       break;
                     case DivisionResult _:
-                      _divRes.text = state.result.divResult.toString();
+                      _divRes.text = state.result.answer.toString();
                       break;
                     case DivisionError _:
                       _divRes.text = state.divisionErrorMessage;

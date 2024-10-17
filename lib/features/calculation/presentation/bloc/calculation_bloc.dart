@@ -1,10 +1,10 @@
-import 'package:bloc/bloc.dart';
 import 'package:calculator/features/calculation/domain/entities/result.dart';
 import 'package:calculator/features/calculation/domain/usecases/add_use_case.dart';
 import 'package:calculator/features/calculation/domain/usecases/div_use_case.dart';
 import 'package:calculator/features/calculation/domain/usecases/mul_use_case.dart';
 import 'package:calculator/features/calculation/domain/usecases/subtract_use_case.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'calculation_event.dart';
 part 'calculation_state.dart';
